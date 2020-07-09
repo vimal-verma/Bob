@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'dart:math';
+import 'package:audioplayers/audio_cache.dart';
 
 void main() {
   runApp(MyApp());
@@ -62,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (_page == 1) {
       act = ['success', 'idle', 'cover_eyes_in', 'look_test_1'];
     } else {
-      act = ['walk', 'walk', 'music_walk', 'music_walk'];
+      act = ['walk', 'music_walk', 'walk', 'music_walk'];
     }
     return Scaffold(
       appBar: AppBar(
@@ -116,7 +117,8 @@ class _MyHomePageState extends State<MyHomePage> {
           setState(() {
             num = Random().nextInt(4);
           });
-          print(num);
+          final player = AudioCache();
+          player.play('note$num.wav');
         },
       ),
       bottomNavigationBar: CurvedNavigationBar(
@@ -142,15 +144,24 @@ class _MyHomePageState extends State<MyHomePage> {
           setState(() {
             _page = index;
           });
+          var snum = _page + 4;
+          final player = AudioCache();
+          player.play('note$snum.wav');
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.history),
         onPressed: () {
           setState(() {
-            num = Random().nextInt(4);
-            print(num);
+            if (num == 3) {
+              num = 0;
+            } else {
+              num++;
+            }
           });
+          print(num);
+          final player = AudioCache();
+          player.play('note$num.wav');
         },
       ),
     );
